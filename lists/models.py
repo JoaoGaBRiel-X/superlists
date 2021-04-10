@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 class List(models.Model):
 	
@@ -9,4 +9,4 @@ class List(models.Model):
 
 class Item(models.Model):
 	text = models.TextField(default='')
-	list = models.ForeignKey(List, default=None)
+	list = models.ForeignKey(List, on_delete=models.CASCADE, default=None)
