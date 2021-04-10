@@ -5,6 +5,9 @@ from unittest import skip
 
 class ItemValidationTest(FunctionalTest):
 
+	def get_error_element(self):
+		return self.browser.find_element_by_css_selector('.has-error')
+
 	def test_cannot_add_empty_list_items(self):
 		# Edith acessa a página inicial e acidentalmente tenta submeter
 		# um item vazio na lista. Ela tecla Enter na caixa de entrada vazia
@@ -56,7 +59,7 @@ class ItemValidationTest(FunctionalTest):
 		self.get_item_input_box().send_keys('Banter to thick')
 		self.get_item_input_box().send_keys(Keys.ENTER)
 		self.wait_for(lambda: self.assertTrue(
-			self.browser.find_element_by_css_selector('.has-error').is_displayed()
+			self.get_error_element().is_displayed()
 		))
 
 		# Ela começa a digitar na caixa de entrada para limpar o erro
@@ -64,7 +67,7 @@ class ItemValidationTest(FunctionalTest):
 
 		# Ela fica satisfeita ao ver que a mensagem de erro desaparece
 		self.wait_for(lambda: self.assertFalse(
-			self.browser.find_element_by_css_selector('.has-error').is_displayed()
+			self.get_error_element().is_displayed()
 		))
 
 	def test_cannot_add_duplicate_items(self):
@@ -81,6 +84,6 @@ class ItemValidationTest(FunctionalTest):
 
 		# Ela vê uma mensagem de erro prestativa
 		self.wait_for(lambda: self.assertEqual(
-			self.browser.find_element_by_css_selector('.has-error').text,
+			self.get_error_element().text,
 			'Você já incluiu este item em sua lista'
 		))
